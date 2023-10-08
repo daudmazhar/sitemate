@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 
-const BASE_URL = 'http://localhost:3000'; // Change this to match your server's URL
+const BASE_URL = 'http://localhost:3000';
 
 function App() {
   const [issues, setIssues] = useState([]);
