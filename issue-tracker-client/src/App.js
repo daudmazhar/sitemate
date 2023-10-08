@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Issue from './components/Issue';
 
@@ -8,10 +8,6 @@ function App() {
   const [issues, setIssues] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-
-  useEffect(() => {
-    fetchIssues();
-  }, []);
 
   const fetchIssues = async () => {
     try {
@@ -56,6 +52,13 @@ function App() {
     }
   };
 
+  const updateIssue = (id, title, description) => {
+    const updatedIssues = issues.map((issue) =>
+      issue.id === id ? { ...issue, title, description } : issue
+    );
+    setIssues(updatedIssues);
+  };
+
   return (
     <div className="App">
       <h1> Issue Tracker</h1>
@@ -76,9 +79,17 @@ function App() {
         <button className='button' onClick={createIssue}>Create Issue</button>
       </div>
       <h2>Current Issues</h2>
-        {issues.map((issue) => (
-          <Issue key={issue.id} issue={issue} deleteIssue={deleteIssue} />
-        ))}
+      {issues.length === 0 ? <button className='button' onClick={fetchIssues}>Get Current Issues</button> :
+        <div>
+          {issues.map((issue) => (
+            <Issue 
+              key={issue.id} 
+              issue={issue} 
+              updateIssue={(issueId, title, description) => updateIssue(issueId, title, description)} 
+              deleteIssue={(issueId) => deleteIssue(issueId)} onUpdate={updateIssue}
+            />    
+          ))}
+        </div>}
     </div>
   );
 }
