@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import Issue from './components/Issue';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -57,8 +58,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Issue Tracker</h1>
-      <div className="issue-form">
+      <h1> Issue Tracker</h1>
+      <div>
         <h2>Create a New Issue</h2>
         <input
           type="text"
@@ -72,17 +73,12 @@ function App() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <button onClick={createIssue}>Create Issue</button>
+        <button className='button' onClick={createIssue}>Create Issue</button>
       </div>
       <h2>Current Issues</h2>
-      <ul className="issue-list">
         {issues.map((issue) => (
-          <li key={issue.id}>
-            <strong>{issue.title}</strong> - {issue.description}
-            <button onClick={() => deleteIssue(issue.id)}>Delete</button>
-          </li>
+          <Issue key={issue.id} issue={issue} deleteIssue={deleteIssue} />
         ))}
-      </ul>
     </div>
   );
 }
